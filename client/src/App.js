@@ -1,10 +1,10 @@
 import React from 'react';
-import UploadComponent from './components/UploadComponent';
+import Upload from './components/Upload';
 
 function App() {
     return (
         <div>
-            <UploadComponent />
+            <Upload/>
         </div>
     );
 }
