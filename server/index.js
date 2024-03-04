@@ -3,6 +3,7 @@ const multer = require('multer');
 const cors = require('cors');
 const spawn = require('child_process').spawn;
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -45,6 +46,15 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     try {
         const result = await htrScript(scriptPath, uploadedFilePath);
         res.json({ text: result.trim() });
+
+        // File cleanup
+        fs.unlink(uploadedFilePath, err => {
+            if (err) {
+                console.error('Error deleting file:', err);
+            } else {
+                console.log(`Deleted uploaded file: ${uploadedFilePath}`);
+            }
+        });
     } catch (error) {
         console.error('Error processing file:', error);
         return res.status(500).send('Error processing the image.');
